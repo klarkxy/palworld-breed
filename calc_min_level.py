@@ -3,7 +3,6 @@ from pals_data import Pal
 
 min_breed = {}  # 最低等级配种表
 
-
 def join_road(r: list, a, b, c: Pal) -> list:
     if (a,b,c) in r or (b,a,c) in r:
         return r
@@ -20,7 +19,7 @@ def join_roads(r1: list, r2: list) -> list:
     return r
 
 def check_and_update(a, b, c):
-    level = 10 # 10级以下可以直接获取不需要配种
+    level = 14 # 12级以下可以直接获取不需要配种
     old_level, old_road, old_src = min_breed[c][0], min_breed[c][1], min_breed[c][2]
     if old_level <= level:
         return
@@ -33,8 +32,10 @@ def check_and_update(a, b, c):
         min_breed[c] = (new_level, new_road, new_src)
     elif len(new_road) < len(old_road):   # 如果新的需要的步骤更少，更新
         min_breed[c] = (new_level, new_road, new_src)
-    elif len(new_road) == len(old_road): # 路径数相同，来源数更少，更新
-        if len(new_src) < len(old_src):
+    elif len(new_road) == len(old_road): # 最短路径相同，比较源头等级和
+        new_sum = sum(p.min_level for p in new_src)
+        old_sum = sum(p.min_level for p in old_src)
+        if new_sum < old_sum:
             min_breed[c] = (new_level, new_road, new_src)
 
 def iteration():

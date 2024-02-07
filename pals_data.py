@@ -29,8 +29,14 @@ class Pal:
             pal = Pal()
             pal.no = str(row[0].value)
             pal.name = row[1].value
-            pal.min_level = int(row[2].value)
-            pal.max_level = int(row[3].value)
+            if row[2].value is None:
+                pal.min_level = 999
+            else:
+                pal.min_level = int(row[2].value)
+            if row[3].value is None:
+                pal.max_level = 999
+            else:
+                pal.max_level = int(row[3].value)
             pal.power = int(row[4].value)
             cls.all_pals.append(pal)
         # for pal in cls.all_pals:
